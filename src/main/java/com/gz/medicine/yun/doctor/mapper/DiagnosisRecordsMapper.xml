@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.gz.medicine.yun.doctor.mapper.DiagnosisRecordsMapper">
+
+	<resultMap id="BaseResultMap" type="com.gz.medicine.yun.doctor.bean.DiagnosisRecords">
+	          <id column="ID" jdbcType="VARCHAR" property="id"/>
+              <result column="ZID" jdbcType="VARCHAR" property="zid"/>  
+              <result column="ZNAME" jdbcType="VARCHAR" property="zname"/>
+			  <result column="SID" jdbcType="VARCHAR" property="sid"/>
+	</resultMap>
+
+	 <sql id="Base_Column_List">
+			     ID, ZID, ZNAME,SID
+	 </sql>
+
+     <!-- 根据主键获取对象 -->
+	 <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+	    select 
+	    <include refid="Base_Column_List" />
+	    from DiagnosisRecords
+	    where  ID = #{id,jdbcType=VARCHAR}
+	  </select>
+	
+	  <!-- 根据主键删除 -->
+	  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+	    update DiagnosisRecords
+		<set>
+		    STATE = '1'
+		</set>
+		where ID = #{id,jdbcType=VARCHAR}
+	  </delete>
+
+	<!-- 根据主键删除 -->
+	<delete id="deleteOK" parameterType="java.lang.String">
+		DELETE DIAGNOSIS_RECORDS
+		where SID = #{sid,jdbcType=VARCHAR}
+	</delete>
+	  <!-- 新增对象(所有字段) -->
+	  <insert id="insert" parameterType="com.gz.medicine.yun.doctor.bean.DiagnosisRecords">
+		insert into DiagnosisRecords(
+			<include refid="Base_Column_List" />
+		)
+		values(	  
+	             #{id,jdbcType=VARCHAR} 
+                 
+	             ,#{zid,jdbcType=VARCHAR}
+                 
+	             ,#{zname,jdbcType=VARCHAR}
+
+		 		 ,#{sid,jdbcType=VARCHAR}
+               )
+	  </insert>
+	
+	  <!-- 新增对象(部分字段) -->
+	  <insert id="insertSelective" parameterType="com.gz.medicine.yun.doctor.bean.DiagnosisRecords">
+	    insert into DIAGNOSIS_RECORDS
+	    <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null and id != ''">  
+                ID,
+            </if>  
+            <if test="zid != null and zid != ''">  
+                ZID,
+            </if>  
+            <if test="zname != null and zname != ''">  
+                ZNAME,
+            </if>
+			<if test="sid != null and sid != ''">
+				SID,
+			</if>
+		</trim>
+	    <trim prefix="values (" suffix=")" suffixOverrides=",">
+	            <if test="id != null and id != ''">  
+	                  #{id,jdbcType=VARCHAR},  
+	            </if>  
+	            <if test="zid != null and zid != ''">  
+	                  #{zid,jdbcType=VARCHAR},  
+	            </if>  
+	            <if test="zname != null and zname != ''">  
+	                  #{zname,jdbcType=VARCHAR},  
+	            </if>
+				<if test="sid != null and sid != ''">
+					  #{sid,jdbcType=VARCHAR},
+				</if>
+	    </trim>
+	  </insert>
+	
+	  <update id="updateByPrimaryKeySelective" parameterType="com.gz.medicine.yun.doctor.bean.DiagnosisRecords">
+	    update DiagnosisRecords
+		<set>
+            <if test="id != null and id != ''">  
+                  ID = #{id,jdbcType=VARCHAR}
+                    
+            </if>  
+            <if test="zid != null and zid != ''">  
+                  , ZID = #{zid,jdbcType=VARCHAR}
+                    
+            </if>  
+            <if test="zname != null and zname != ''">  
+                  , ZNAME = #{zname,jdbcType=VARCHAR}
+                    
+            </if>  
+		</set>
+		where ID = #{id,jdbcType=VARCHAR}
+	  </update>
+	
+	  <!-- 修改对象(所有字段) -->
+	  <update id="updateByPrimaryKey" parameterType="com.gz.medicine.yun.doctor.bean.DiagnosisRecords">
+		update DiagnosisRecords
+		set
+               ID = #{id,jdbcType=VARCHAR}
+               , ZID = #{zid,jdbcType=VARCHAR}
+               , ZNAME = #{zname,jdbcType=VARCHAR}
+		where ID = #{id,jdbcType=VARCHAR}
+	  </update>
+	
+	  <!-- 根据条件获取所有数据 -->
+	  <select id="selectAll" parameterType="com.gz.medicine.yun.doctor.bean.DiagnosisRecords" resultMap="BaseResultMap">
+	    select * from DiagnosisRecords
+	    <where>
+            <if test="id != null and id != ''"> 
+                   
+                   ID = #{id,jdbcType=VARCHAR}
+ 
+            </if>  
+            <if test="zid != null and zid != ''"> 
+                   
+                    and ZID = #{zid,jdbcType=VARCHAR} 
+ 
+            </if>  
+            <if test="zname != null and zname != ''"> 
+                   
+                    and ZNAME = #{zname,jdbcType=VARCHAR} 
+ 
+            </if>  
+	    </where>
+	  </select>
+	
+	  <!-- 分页数据 -->
+	  <select id="queryPage" parameterType="com.gz.medicine.common.mybatisPageVo.Page" resultMap="BaseResultMap">
+	    select * from DiagnosisRecords
+	  </select>
+
+
+</mapper>

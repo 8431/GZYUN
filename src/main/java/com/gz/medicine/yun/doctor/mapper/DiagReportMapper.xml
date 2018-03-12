@@ -1,0 +1,330 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.gz.medicine.yun.doctor.mapper.DiagReportMapper">
+
+	<resultMap id="BaseResultMap" type="com.gz.medicine.yun.doctor.bean.DiagReport">
+	          <id column="GUID" jdbcType="CHAR" property="guid"/>
+              <result column="PATIENTID" jdbcType="VARCHAR" property="patientid"/>  
+              <result column="PATIENTVID" jdbcType="VARCHAR" property="patientvid"/>  
+              <result column="DOCID" jdbcType="VARCHAR" property="docid"/>  
+              <result column="SUBMITIME" jdbcType="VARCHAR" property="submitime"/>  
+              <result column="HOSPITAL" jdbcType="VARCHAR" property="hospital"/>  
+              <result column="PARTNER" jdbcType="VARCHAR" property="partner"/>  
+              <result column="TIME" jdbcType="VARCHAR" property="time"/>  
+              <result column="SYMPTOMS" jdbcType="VARCHAR" property="symptoms"/>  
+              <result column="DIAGNOSIS" jdbcType="VARCHAR" property="diagnosis"/>  
+              <result column="TESTS" jdbcType="VARCHAR" property="tests"/>  
+              <result column="MEDICINES" jdbcType="VARCHAR" property="medicines"/>  
+              <result column="CRTDAT" jdbcType="TIMESTAMP" property="crtdat"/>  
+	</resultMap>
+
+	 <sql id="Base_Column_List">
+			     GUID, PATIENTID, PATIENTVID, DOCID, SUBMITIME, HOSPITAL, PARTNER, TIME, SYMPTOMS, DIAGNOSIS, TESTS, MEDICINES, CRTDAT
+	 </sql>
+
+     <!-- 根据主键获取对象 -->
+	 <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+	    select 
+	    <include refid="Base_Column_List" />
+	    from DiagReport
+	    where  GUID = #{guid,jdbcType=CHAR}
+	  </select>
+
+    <select id="findByUserId" parameterType="java.lang.String" resultMap="BaseResultMap">
+
+        SELECT <include refid="Base_Column_List" /> FROM(
+        SELECT
+        a.*,rownum as rn
+        FROM DiagReport a
+        WHERE a.PATIENTID = #{guid,jdbcType=VARCHAR} order by a.crtdat desc)WHERE rn=1
+
+    </select>
+
+	  <!-- 根据主键删除 -->
+	  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+	    update DiagReport
+		<set>
+		    STATE = '1'
+		</set>
+		where GUID = #{guid,jdbcType=CHAR}
+	  </delete>
+	
+	  <!-- 新增对象(所有字段) -->
+	  <insert id="insert" parameterType="com.gz.medicine.yun.doctor.bean.DiagReport">
+		insert into DiagReport(
+			<include refid="Base_Column_List" />
+		)
+		values(	  
+	             #{guid,jdbcType=CHAR} 
+                 
+	             ,#{patientid,jdbcType=VARCHAR}
+                 
+	             ,#{patientvid,jdbcType=VARCHAR}
+                 
+	             ,#{docid,jdbcType=VARCHAR}
+                 
+	             ,#{submitime,jdbcType=VARCHAR}
+                 
+	             ,#{hospital,jdbcType=VARCHAR}
+                 
+	             ,#{partner,jdbcType=VARCHAR}
+                 
+	             ,#{time,jdbcType=VARCHAR}
+                 
+	             ,#{symptoms,jdbcType=VARCHAR}
+                 
+	             ,#{diagnosis,jdbcType=VARCHAR}
+                 
+	             ,#{tests,jdbcType=VARCHAR}
+                 
+	             ,#{medicines,jdbcType=VARCHAR}
+                 
+	             ,#{crtdat,jdbcType=TIMESTAMP}
+               )
+	  </insert>
+	
+	  <!-- 新增对象(部分字段) -->
+	  <insert id="insertSelective" parameterType="com.gz.medicine.yun.doctor.bean.DiagReport">
+	    insert into DiagReport
+	    <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="guid != null and guid != ''">  
+                GUID,
+            </if>  
+            <if test="patientid != null and patientid != ''">  
+                PATIENTID,
+            </if>  
+            <if test="patientvid != null and patientvid != ''">  
+                PATIENTVID,
+            </if>  
+            <if test="docid != null and docid != ''">  
+                DOCID,
+            </if>  
+            <if test="submitime != null and submitime != ''">  
+                SUBMITIME,
+            </if>  
+            <if test="hospital != null and hospital != ''">  
+                HOSPITAL,
+            </if>  
+            <if test="partner != null and partner != ''">  
+                PARTNER,
+            </if>  
+            <if test="time != null and time != ''">  
+                TIME,
+            </if>  
+            <if test="symptoms != null and symptoms != ''">  
+                SYMPTOMS,
+            </if>  
+            <if test="diagnosis != null and diagnosis != ''">  
+                DIAGNOSIS,
+            </if>  
+            <if test="tests != null and tests != ''">  
+                TESTS,
+            </if>  
+            <if test="medicines != null and medicines != ''">  
+                MEDICINES,
+            </if>  
+            <if test="crtdat != null and crtdat != ''">  
+                CRTDAT,
+            </if>  
+	    </trim>
+	    <trim prefix="values (" suffix=")" suffixOverrides=",">
+	            <if test="guid != null and guid != ''">  
+	                  #{guid,jdbcType=CHAR},  
+	            </if>  
+	            <if test="patientid != null and patientid != ''">  
+	                  #{patientid,jdbcType=VARCHAR},  
+	            </if>  
+	            <if test="patientvid != null and patientvid != ''">  
+	                  #{patientvid,jdbcType=VARCHAR},  
+	            </if>  
+	            <if test="docid != null and docid != ''">  
+	                  #{docid,jdbcType=VARCHAR},  
+	            </if>  
+	            <if test="submitime != null and submitime != ''">  
+	                  #{submitime,jdbcType=VARCHAR},  
+	            </if>  
+	            <if test="hospital != null and hospital != ''">  
+	                  #{hospital,jdbcType=VARCHAR},  
+	            </if>  
+	            <if test="partner != null and partner != ''">  
+	                  #{partner,jdbcType=VARCHAR},  
+	            </if>  
+	            <if test="time != null and time != ''">  
+	                  #{time,jdbcType=VARCHAR},  
+	            </if>  
+	            <if test="symptoms != null and symptoms != ''">  
+	                  #{symptoms,jdbcType=VARCHAR},  
+	            </if>  
+	            <if test="diagnosis != null and diagnosis != ''">  
+	                  #{diagnosis,jdbcType=VARCHAR},  
+	            </if>  
+	            <if test="tests != null and tests != ''">  
+	                  #{tests,jdbcType=VARCHAR},  
+	            </if>  
+	            <if test="medicines != null and medicines != ''">  
+	                  #{medicines,jdbcType=VARCHAR},  
+	            </if>  
+	            <if test="crtdat != null and crtdat != ''">  
+	                  #{crtdat,jdbcType=TIMESTAMP},  
+	            </if>  
+	    </trim>
+	  </insert>
+	
+	  <update id="updateByPrimaryKeySelective" parameterType="com.gz.medicine.yun.doctor.bean.DiagReport">
+	    update DiagReport
+		<set>
+            <if test="guid != null and guid != ''">  
+                  GUID = #{guid,jdbcType=CHAR}
+                    
+            </if>  
+            <if test="patientid != null and patientid != ''">  
+                  , PATIENTID = #{patientid,jdbcType=VARCHAR}
+                    
+            </if>  
+            <if test="patientvid != null and patientvid != ''">  
+                  , PATIENTVID = #{patientvid,jdbcType=VARCHAR}
+                    
+            </if>  
+            <if test="docid != null and docid != ''">  
+                  , DOCID = #{docid,jdbcType=VARCHAR}
+                    
+            </if>  
+            <if test="submitime != null and submitime != ''">  
+                  , SUBMITIME = #{submitime,jdbcType=VARCHAR}
+                    
+            </if>  
+            <if test="hospital != null and hospital != ''">  
+                  , HOSPITAL = #{hospital,jdbcType=VARCHAR}
+                    
+            </if>  
+            <if test="partner != null and partner != ''">  
+                  , PARTNER = #{partner,jdbcType=VARCHAR}
+                    
+            </if>  
+            <if test="time != null and time != ''">  
+                  , TIME = #{time,jdbcType=VARCHAR}
+                    
+            </if>  
+            <if test="symptoms != null and symptoms != ''">  
+                  , SYMPTOMS = #{symptoms,jdbcType=VARCHAR}
+                    
+            </if>  
+            <if test="diagnosis != null and diagnosis != ''">  
+                  , DIAGNOSIS = #{diagnosis,jdbcType=VARCHAR}
+                    
+            </if>  
+            <if test="tests != null and tests != ''">  
+                  , TESTS = #{tests,jdbcType=VARCHAR}
+                    
+            </if>  
+            <if test="medicines != null and medicines != ''">  
+                  , MEDICINES = #{medicines,jdbcType=VARCHAR}
+                    
+            </if>  
+            <if test="crtdat != null and crtdat != ''">  
+                  , CRTDAT = #{crtdat,jdbcType=TIMESTAMP}
+                    
+            </if>  
+		</set>
+		where GUID = #{guid,jdbcType=CHAR}
+	  </update>
+	
+	  <!-- 修改对象(所有字段) -->
+	  <update id="updateByPrimaryKey" parameterType="com.gz.medicine.yun.doctor.bean.DiagReport">
+		update DiagReport
+		set
+               GUID = #{guid,jdbcType=CHAR}
+               , PATIENTID = #{patientid,jdbcType=VARCHAR}
+               , PATIENTVID = #{patientvid,jdbcType=VARCHAR}
+               , DOCID = #{docid,jdbcType=VARCHAR}
+               , SUBMITIME = #{submitime,jdbcType=VARCHAR}
+               , HOSPITAL = #{hospital,jdbcType=VARCHAR}
+               , PARTNER = #{partner,jdbcType=VARCHAR}
+               , TIME = #{time,jdbcType=VARCHAR}
+               , SYMPTOMS = #{symptoms,jdbcType=VARCHAR}
+               , DIAGNOSIS = #{diagnosis,jdbcType=VARCHAR}
+               , TESTS = #{tests,jdbcType=VARCHAR}
+               , MEDICINES = #{medicines,jdbcType=VARCHAR}
+               , CRTDAT = #{crtdat,jdbcType=TIMESTAMP}
+		where GUID = #{guid,jdbcType=CHAR}
+	  </update>
+	
+	  <!-- 根据条件获取所有数据 -->
+	  <select id="selectAll" parameterType="com.gz.medicine.yun.doctor.bean.DiagReport" resultMap="BaseResultMap">
+	    select * from DiagReport
+	    <where>
+            <if test="guid != null and guid != ''"> 
+                   
+                   GUID = #{guid,jdbcType=CHAR}
+ 
+            </if>  
+            <if test="patientid != null and patientid != ''"> 
+                   
+                    and PATIENTID = #{patientid,jdbcType=VARCHAR} 
+ 
+            </if>  
+            <if test="patientvid != null and patientvid != ''"> 
+                   
+                    and PATIENTVID = #{patientvid,jdbcType=VARCHAR} 
+ 
+            </if>  
+            <if test="docid != null and docid != ''"> 
+                   
+                    and DOCID = #{docid,jdbcType=VARCHAR} 
+ 
+            </if>  
+            <if test="submitime != null and submitime != ''"> 
+                   
+                    and SUBMITIME = #{submitime,jdbcType=VARCHAR} 
+ 
+            </if>  
+            <if test="hospital != null and hospital != ''"> 
+                   
+                    and HOSPITAL = #{hospital,jdbcType=VARCHAR} 
+ 
+            </if>  
+            <if test="partner != null and partner != ''"> 
+                   
+                    and PARTNER = #{partner,jdbcType=VARCHAR} 
+ 
+            </if>  
+            <if test="time != null and time != ''"> 
+                   
+                    and TIME = #{time,jdbcType=VARCHAR} 
+ 
+            </if>  
+            <if test="symptoms != null and symptoms != ''"> 
+                   
+                    and SYMPTOMS = #{symptoms,jdbcType=VARCHAR} 
+ 
+            </if>  
+            <if test="diagnosis != null and diagnosis != ''"> 
+                   
+                    and DIAGNOSIS = #{diagnosis,jdbcType=VARCHAR} 
+ 
+            </if>  
+            <if test="tests != null and tests != ''"> 
+                   
+                    and TESTS = #{tests,jdbcType=VARCHAR} 
+ 
+            </if>  
+            <if test="medicines != null and medicines != ''"> 
+                   
+                    and MEDICINES = #{medicines,jdbcType=VARCHAR} 
+ 
+            </if>  
+            <if test="crtdat != null and crtdat != ''"> 
+                   
+                    and CRTDAT = #{crtdat,jdbcType=TIMESTAMP} 
+ 
+            </if>  
+	    </where>
+	  </select>
+	
+	  <!-- 分页数据 -->
+	  <select id="queryPage" parameterType="com.gz.medicine.common.mybatisPageVo.Page" resultMap="BaseResultMap">
+	    select * from DiagReport
+	  </select>
+
+
+</mapper>
